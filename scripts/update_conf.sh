@@ -14,7 +14,7 @@ sed "s@# BindAddress: localhost 192.168.7.254 publicNameOnMainInterface@# BindAd
 sed "s@# VerboseLog: 1@VerboseLog: 1@" -i "$acngConf"
 sed "s@# ForeGround: 0@ForeGround: 1@" -i "$acngConf"
 sed "s@# PidFile: /var/run/apt-cacher-ng/pid@PidFile: /var/run/apt-cacher-ng/pid@" -i "$acngConf"
-sed "s@# VfilePatternEx:@VfilePatternEx: ^(\/mirrorlist\/.*|\/\?release=[0-9]+&arch=.*|.*\/RPM-GPG-KEY.*)\$@" -i "$acngConf"
+sed '#\# VfilePatternEx:#VfilePatternEx: ^(\\/mirrorlist\\/.*|/\\?release=[0-9]+&arch=.*|.*\\/RPM-GPG-KEY.*)\$#' -i "$acngConf"
 sed "s@# PrecacheFor: debrep@PrecacheFor: debrep@" -i "$acngConf"
 
 sed "/^# DontCache: .*.local.university.int/a DontCache: (mirrorlist.centos.org)|(\/mirrorlist\/)|(.bz2\$)" -i "$acngConf"
