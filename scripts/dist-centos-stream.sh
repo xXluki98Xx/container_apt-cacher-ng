@@ -1,6 +1,6 @@
 #!/bin/bash
 
-URL="https://mirror-status.centos.org"
-OUTFILE="list.centos"
+URL="https://admin.fedoraproject.org/mirrormanager/mirrors/CentOS"
+OUTFILE="list.centos-stream"
 
 curl ${URL} | grep -Eo "(http|https)://[a-zA-Z0-9./?=_%:-]*" | grep -i centos >> ${OUTFILE}

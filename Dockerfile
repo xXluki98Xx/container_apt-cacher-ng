@@ -11,15 +11,16 @@ LABEL maintainer="lramm.dev@gmail.com"
 ENV APT_CACHER_NG_VERSION=3.3 \
     APT_CACHER_NG_CACHE_DIR=/var/cache/apt-cacher-ng \
     APT_CACHER_NG_LOG_DIR=/var/log/apt-cacher-ng \
-    APT_CACHER_NG_USER=apt-cacher-ng
+    APT_CACHER_NG_USER=apt-cacher-ng \
+    APT_CACHER_NG_PORT=3142
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
-        apt-cacher-ng ca-certificates wget \
+        apt-cacher-ng ca-certificates wget curl less nano \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=git /app/swap/scripts/dist-* /mirror_scripts/
-COPY --from=git /app/swap/config/acng.conf /acng.conf
+COPY --from=git /app/swap/scripts/update_conf.sh /update_conf.sh
 
 RUN cd /mirror_scripts; \
     mkdir -p /etc/apt-cacher-ng/mirror_list.d/; \

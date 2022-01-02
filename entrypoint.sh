@@ -21,11 +21,6 @@ create_log_dir() {
   chown -R ${APT_CACHER_NG_USER}:${APT_CACHER_NG_USER} ${APT_CACHER_NG_LOG_DIR}
 }
 
-update_config(){
-  sed "s#CacheDir: /var/cache/apt-cacher-ng#CacheDir: ${APT_CACHER_NG_CACHE_DIR}#" -i /etc/apt-cacher-ng/acng.conf
-  sed "s#LogDir: /var/log/apt-cacher-ng#LogDir: ${APT_CACHER_NG_LOG_DIR}#" -i /etc/apt-cacher-ng/acng.conf
-}
-
 mirror_lists(){
   scriptDir='mirror_scripts'
   mirrorDir='/etc/apt-cacher-ng/mirror_list.d/'
@@ -34,7 +29,7 @@ mirror_lists(){
     echo "mirror lists doesnt exist, will created"
 
     cd "/$scriptDir"
-    for file in "/$scriptDir/dist-*.sh"
+    for file in "/$scriptDir"/*
     do
         echo $file
         if [ -f $file ];then
@@ -52,16 +47,17 @@ mirror_lists(){
   fi
 }
 
-set_config(){
-  cp -u /acng.conf /etc/apt-cacher-ng/acng.conf  
+update_config(){
+  echo "updating acng.conf"
+  bash /update_conf.sh
+  echo "updating finished"
 }
 
-set_config
 create_pid_dir
 create_cache_dir
 create_log_dir
-update_config
 mirror_lists
+update_config
 
 # allow arguments to be passed to apt-cacher-ng
 if [[ ${1:0:1} = '-' ]]; then
