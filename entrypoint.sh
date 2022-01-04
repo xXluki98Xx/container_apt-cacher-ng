@@ -49,7 +49,7 @@ mirror_lists(){
 }
 
 update_config(){
-  if grep -q "BindAddress: 0.0.0.0" $acngConf; then
+  if [[ $(grep -L "BindAddress: 0.0.0.0" $acngConf) ]]; then
     echo "updating acng.conf"
     bash /update_conf.sh
     echo "updating finished"
