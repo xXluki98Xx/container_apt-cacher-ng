@@ -2,6 +2,7 @@
 set -e
 
 curDir=$PWD
+acngConf="/etc/apt-cacher-ng/acng.conf"
 
 create_pid_dir() {
   mkdir -p /run/apt-cacher-ng
@@ -32,7 +33,7 @@ mirror_lists(){
     for file in "/$scriptDir"/dist*
     do
         echo $file
-        if [ -f $file ];then
+        if [ -f $file ]; then
           bash $file
         fi
     done
@@ -48,9 +49,13 @@ mirror_lists(){
 }
 
 update_config(){
-  echo "updating acng.conf"
-  bash /update_conf.sh
-  echo "updating finished"
+  if grep -q "BindAddress: 0.0.0.0" $acngConf; then
+    echo "updating acng.conf"
+    bash /update_conf.sh
+    echo "updating finished"
+  else
+    echo "config already modified"
+  fi
 }
 
 create_pid_dir
