@@ -49,6 +49,10 @@ mirror_lists(){
 }
 
 update_config(){
+  if [[ ! -f /etc/apt-cacher-ng/acng.conf ]]; then
+    cp /etc/apt-cacher-ng/acng.conf.bak /etc/apt-cacher-ng/acng.conf
+  fi
+
   if [[ $(grep -L "BindAddress: 0.0.0.0" $acngConf) ]]; then
     echo "updating acng.conf"
     bash /update_conf.sh

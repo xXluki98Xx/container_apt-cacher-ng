@@ -10,15 +10,15 @@ sed "s#LogDir: /var/log/apt-cacher-ng#LogDir: ${APT_CACHER_NG_LOG_DIR}#" -i "$ac
 
 # Setup Config
 sed "s@# Port:3142@Port: ${APT_CACHER_NG_PORT}@" -i "$acngConf"
-sed "s@# BindAddress: localhost 192.168.7.254 publicNameOnMainInterface@# BindAddress: localhost 192.168.7.254 publicNameOnMainInterface\nBindAddress: 0.0.0.0@" -i "$acngConf"
 sed "s@# VerboseLog: 1@VerboseLog: 1@" -i "$acngConf"
 sed "s@# ForeGround: 0@ForeGround: 1@" -i "$acngConf"
 sed "s@# PidFile: /var/run/apt-cacher-ng/pid@PidFile: /var/run/apt-cacher-ng/pid@" -i "$acngConf"
-sed '#\# VfilePatternEx:#VfilePatternEx: ^(\\/mirrorlist\\/.*|/\\?release=[0-9]+&arch=.*|.*\\/RPM-GPG-KEY.*)\$#' -i "$acngConf"
+sed 's@# VfilePatternEx:@VfilePatternEx: ^(\\/mirrorlist\\/.*|/\\?release=[0-9]+\&arch=.*|.*\\/RPM-GPG-KEY.*)\$@' -i "$acngConf"
 sed "s@# PrecacheFor: debrep@PrecacheFor: debrep@" -i "$acngConf"
 
+sed "/^# BindAddress: localhost/a BindAddress: 0.0.0.0" -i "$acngConf"
 sed "/^# DontCache: .*.local.university.int/a DontCache: (mirrorlist.centos.org)|(\/mirrorlist\/)|(.bz2\$)" -i "$acngConf"
-sed "/^# PassThroughPattern: \^(bugs/a PassThroughPattern: \^(bugs\.debian\.org|changelogs\.ubuntu\.com|mirrors\.fedoraproject\.org):443\$" -i "$acngConf"
+sed "/^# PassThroughPattern: \^(bugs/a PassThroughPattern: \^(bugs\\\.debian\\\.org|changelogs\\\.ubuntu\\\.com|mirrors\\\.fedoraproject\\\.org|download\\\.docker\\\.com):443\$" -i "$acngConf"
 
 
 # Setup Mirrors

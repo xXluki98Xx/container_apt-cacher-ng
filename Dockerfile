@@ -22,11 +22,13 @@ RUN apt-get update \
 COPY --from=git /app/swap/scripts/dist-* /mirror_scripts/
 COPY --from=git /app/swap/scripts/update_conf.sh /update_conf.sh
 COPY --from=git /app/swap/entrypoint.sh /sbin/entrypoint.sh
+# COPY scripts/update_conf.sh /update_conf.sh
 
 RUN cd /mirror_scripts; \
     mkdir -p /etc/apt-cacher-ng/mirror_list.d/; \
     chmod -R 0755 /etc/apt-cacher-ng/mirror_list.d/ \
-    && chown -R ${APT_CACHER_NG_USER}:root /etc/apt-cacher-ng/mirror_list.d/
+    && chown -R ${APT_CACHER_NG_USER}:root /etc/apt-cacher-ng/mirror_list.d/; \
+    cp /etc/apt-cacher-ng/acng.conf /etc/apt-cacher-ng/acng.conf.bak
 
 RUN chmod 755 /sbin/entrypoint.sh
 
