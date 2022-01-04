@@ -29,7 +29,7 @@ mirror_lists(){
     echo "mirror lists doesnt exist, will created"
 
     cd "/$scriptDir"
-    for file in "/$scriptDir"/*
+    for file in "/$scriptDir"/dist*
     do
         echo $file
         if [ -f $file ];then
