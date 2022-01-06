@@ -1,11 +1,11 @@
-version: '2.2'
+version : '3'
 
 services:
   apt-cacher-ng:
-    restart: always
-    image: sameersbn/apt-cacher-ng:3.3-20200524
-    init: true
+    image: "lramm/apt-cacher-ng"
+    restart: unless-stopped
     ports:
-    - "3142:3142"
+      - 3142:3142
     volumes:
-    - /srv/docker/apt-cacher-ng:/var/cache/apt-cacher-ng
+      - ./cache:/var/cache/apt-cacher-ng/
+      - ./mirror_list:/etc/apt-cacher-ng/mirror_list.d/
